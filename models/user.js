@@ -8,7 +8,6 @@ const getSetQueryString =require("../helpers/jsonToSQL")
 class User {
   //static methos is only callable on the class not a different object
   static async register({ firstname, lastname, email, password,userType}) {
-
     const checkForDuplicate = await db.query(
       `SELECT email
       FROM ${userType} 
@@ -31,7 +30,8 @@ class User {
       [firstname, lastname, email, bcryptedPassword]
     );
     const registeredUser = res.rows[0];
-    return registeredUser;
+    const tokenLoad={...registeredUser,userType};
+    return tokenLoad;
   }
 
   static async authenticate({email,password,userType}){
@@ -43,11 +43,12 @@ class User {
     );
 
     const user=res.rows[0];
+    const tokenLoad={...user,userType};
     const isValid=await bcrypt.compare(password,user.password);
     if(!isValid){
       throw new UnauthorizedError(`Password incorrect for ${user.email}`)
     }
-    return user;
+    return tokenLoad;
   }
 
   static async update({ userID, updatedUserJSONData,userType}) {

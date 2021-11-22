@@ -6,6 +6,12 @@ const userRoutes=require("./routes/users")
 const projectRoutes=require("./routes/projects")
 const locationRoutes=require("./routes/userLocations")
 const eventRoutes=require("./routes/userEvents")
+const { authenticateJWT } = require("./middleware/authentication");
+
+
+
+// app.use(express.json());
+app.use(authenticateJWT);
 
 //middleware methods to route into appropriate route
 app.use("/users",userRoutes)

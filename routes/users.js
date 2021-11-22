@@ -3,21 +3,24 @@ const db = require("../db");
 const router = express.Router();
 const User= require("../models/user")
 const createToken=require("../helpers/createTokens");
+const {ensureLoggedIn,ensureContractor}= require("../middleware/authentication");
+
 
 //register a new user
 //returns token 
 router.post("/register",async function(req,res,next){
     try{
         const newCustomerData={
-            firstname:"mr5",
-            lastname:"s",
-            email:"mr5@email.com",
+            firstname:"testing",
+            lastname:"token",
+            email:"testing6@email.com",
             password:"some_password",
             userType:"contractors"  
         };
         const registeredCustomer= await User.register(newCustomerData);
         const token= await createToken(registeredCustomer); 
-        return res.json({token})
+        
+        return res.json(token)
     }
     catch(err){
         return next(err);
@@ -40,18 +43,19 @@ router.post("/login",async function(req,res,next){
     }    
 })
 //update a single user
-router.patch("/:userID", async function(req,res,next){
+router.patch("/:userID",ensureContractor, async function(req,res,next){
     try{
+        // return res.send("hello")
         const userID=req.params.userID;
         const updatedUserJSONData={
             firstname:"carlos",
-            lastname:"sanchez",
+            lastname:"sanchsez",
             email:"someOther@email12.com",
             password:"some_password",          
         };
         const userType="contractors"
         const updatedUser= await User.update({userID,updatedUserJSONData,userType});
-        return res.json(updatedUser);e
+        return res.json(updatedUser);
     }
     catch(err){
         next(err)

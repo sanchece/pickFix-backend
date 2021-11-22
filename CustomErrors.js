@@ -34,5 +34,7 @@ class BadRequestError extends CustomError {
   module.exports={
       CustomError,  
       NotFoundError,
-      BadRequestError    
+      BadRequestError,
+      UnauthorizedError  
   }
+  

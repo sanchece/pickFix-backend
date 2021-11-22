@@ -3,7 +3,8 @@ const {JWT_KEY}=require("../configurations")
 
 function createToken(user){
     const payload={
-        email:user.email
+        email:user.email,
+        userType:user.userType
     }
     const token= jwt.sign(payload,JWT_KEY)
     return token;    
