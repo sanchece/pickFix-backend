@@ -18,10 +18,12 @@ class Event{
     static async get({userID,userType}){
         const res=await db.query(`
             SELECT *
-            FROM user_events
+            FROM user_events U
+            INNER JOIN projects P
+            ON U.project=P.id
             WHERE user_type=$1
-            AND user_id=$2
-        `, [userType,userID]);
+            AND user_id=$2`
+        , [userType,userID]);
         const event=res.rows;
         return event;
     }

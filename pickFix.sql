@@ -61,7 +61,8 @@ CREATE TABLE user_events(
     user_type TEXT NOT NULL,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP,
-    available BOOLEAN
+    available BOOLEAN,
+    project INT NOT NULL REFERENCES projects ON DELETE CASCADE
 );
 
 
