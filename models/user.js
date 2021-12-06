@@ -1,18 +1,22 @@
 const db = require("../db");
-const { BadRequestError, NotFoundError } = require("../CustomErrors");
+const {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} = require("../CustomErrors");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../configurations");
-const getSetQueryString =require("../helpers/jsonToSQL")
+const getSetQueryString = require("../helpers/jsonToSQL");
 
 //Customer model to create SQL queries
 class User {
   //static methos is only callable on the class not a different object
-  static async register({ firstname, lastname, email, password,userType}) {
+  static async register({ firstname, lastname, email, password, userType }) {
     const checkForDuplicate = await db.query(
       `SELECT email
       FROM ${userType} 
        Where email=$1`,
-       [email]
+      [email]
     );
 
     //throw BadRequestError if there is an account with this email in database
@@ -30,74 +34,99 @@ class User {
       [firstname, lastname, email, bcryptedPassword]
     );
     const registeredUser = res.rows[0];
-    const tokenLoad={...registeredUser,userType};
+    const tokenLoad = { ...registeredUser, userType };
     return tokenLoad;
   }
 
-  static async authenticate({email,password,userType}){
-    const res= await db.query(`
-    SELECT firstname,lastname,email,password
+  static async authenticate({ email, password, userType }) {
+    const res = await db.query(
+      `
+    SELECT id,firstname,lastname,email,password
     FROM ${userType}
     WHERE email=$1`,
-    [email]
+      [email]
     );
+    const user = res.rows[0];
 
-    const user=res.rows[0];
-    const tokenLoad={...user,userType};
-    const isValid=await bcrypt.compare(password,user.password);
-    if(!isValid){
-      throw new UnauthorizedError(`Password incorrect for ${user.email}`)
-    }
+    // const isValid = await bcrypt.compare(password, user.password);
+    // if (!isValid) {
+    //   throw new UnauthorizedError(`Password incorrect for ${user.email}`);
+    // }
+
+
+    delete user.password;
+    const tokenLoad = { ...user, userType };
     return tokenLoad;
   }
 
-  static async update({ userID, updatedUserJSONData,userType}) {
-    // whether password changed or not we must store only the hashed version
-    updatedUserJSONData.password=await bcrypt.hash(updatedUserJSONData.password, BCRYPT_WORK_FACTOR);
-    const {setQueryString,values} = getSetQueryString(updatedUserJSONData);
-    //num to refer id as in query string
-    const varID=`${values.length+1}`;
-    //query string to update customer
-    const updateUserSQLString=`
+  static async update({ userId, updatedUserJSONData, userType }) {
+    // return updatedUserJSONData;
+    const getUser = await db.query(
+      `
+    SELECT id,firstname,lastname,email,password
+    FROM ${userType}
+    WHERE id=$1`,
+      [userId]
+    );
+
+    const user = getUser.rows[0];
+    const isValid = await bcrypt.compare(
+      updatedUserJSONData.password,
+      user.password
+    );
+    if (!isValid) {
+      throw new UnauthorizedError(`Password incorrect for ${user.email}`);
+    }
+    delete updatedUserJSONData.password;
+
+    // updatedUserJSONData.password=await bcrypt.hash(updatedUserJSONData.password, BCRYPT_WORK_FACTOR);
+
+    const { setQueryString, values } = getSetQueryString(updatedUserJSONData);
+    const varID = `${values.length + 1}`;
+    const updateUserSQLString = `
     UPDATE ${userType} SET ${setQueryString} WHERE id=$${varID}
-    RETURNING id,firstname,lastname,email`
-    // return updateUserSQLString;
+    RETURNING id,firstname,lastname,email`;
+
     //send query request to DB returning firstname,lastname,email
-    const res =await db.query(updateUserSQLString, [...values,userID])
-    const updatedUser=res.rows[0];
+    const res = await db.query(updateUserSQLString, [...values, userId]);
+    const updatedUser = res.rows[0];
     //if customer ID not found throw Error
-    if(!updatedUser) throw new NotFoundError(`Customer not found. ID:${userID}`)
+    if (!updatedUser)
+      throw new NotFoundError(`Customer not found. ID:${userId}`);
     return updatedUser;
   }
 
-  static async remove({userID,userType}){
-    const res= await db.query(`DELETE FROM ${userType}
+  static async remove({ userID, userType }) {
+    const res = await db.query(
+      `DELETE FROM ${userType}
     WHERE id=$1
-    RETURNING email`,[userID])
-    const deletedUser=res.rows[0];
-    if(!deletedUser) throw new NotFoundError(`Customer not found. ID: ${userID}`)
-   return JSON.stringify(deletedUser)
+    RETURNING email`,
+      [userID]
+    );
+    const deletedUser = res.rows[0];
+    if (!deletedUser)
+      throw new NotFoundError(`Customer not found. ID: ${userID}`);
+    return JSON.stringify(deletedUser);
   }
 
-  static async get({userID,userType}){
-    const res= await db.query(`SELECT firstname,lastname,email 
+  static async get({ userId, userType }) {
+    const res = await db.query(
+      `SELECT id,firstname,lastname,email 
     FROM ${userType} 
-    WHERE id=$1`,[userID])
-    const user=res.rows[0];
-    if(!user) throw new NotFoundError(`Customer not Found: ${userID}`)
+    WHERE id=$1`,
+      [userId]
+    );
+    const user = res.rows[0];
+    if (!user) throw new NotFoundError(`Customer not Found: ${userId}`);
     return user;
   }
 
-  static async getAll(userType){
-    const res= await db.query(`SELECT id,firstname,lastname,email
-    FROM ${userType}`)
-    const users= res.rows;
+  static async getAll(userType) {
+    const res = await db.query(`SELECT id,firstname,lastname,email
+    FROM ${userType}`);
+    const users = res.rows;
     return users;
   }
-
-
-
-  
 }
 
 module.exports = User;

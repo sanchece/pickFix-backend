@@ -3,7 +3,7 @@ const db = require("../db");
 const router = express.Router();
 const Event= require("../models/event")
 
-router.post("/add/:userID", async function(req,res,next){
+router.post("/:userID", async function(req,res,next){
     try{
         const userID=req.params.userID;
         const newEventData={
@@ -20,7 +20,7 @@ router.post("/add/:userID", async function(req,res,next){
     }
 })
 
-router.get("/get/:userType/:userID", async function(req,res,next){
+router.get("/:userType/:userID", async function(req,res,next){
     try{
         const userID=req.params.userID;
         const userType=req.params.userType;
@@ -32,7 +32,7 @@ router.get("/get/:userType/:userID", async function(req,res,next){
     }
 })
 
-router.patch("/update/:userType/:userID", async function(req,res,next){
+router.patch("/:userType/:userID", async function(req,res,next){
     try{
         const userID=req.params.userID;
         const userType=req.params.userType;
@@ -49,7 +49,7 @@ router.patch("/update/:userType/:userID", async function(req,res,next){
     }
 })
 
-router.delete("/delete/:userType/:userID", async function(req,res,next){
+router.delete("/:userType/:userID", async function(req,res,next){
     try{
         const userID=req.params.userID;
         const userType=req.params.userType;

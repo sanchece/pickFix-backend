@@ -60,7 +60,8 @@ CREATE TABLE user_events(
     user_id INT NOT NULL,
     user_type TEXT NOT NULL,
     start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP
+    end_time TIMESTAMP,
+    available BOOLEAN
 );
 
 

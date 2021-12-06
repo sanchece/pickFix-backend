@@ -5,12 +5,12 @@ const {JWT_KEY}=require("../configurations")
 function authenticateJWT(req,res,next){
     try{
         const bcrytpedToken=req.headers.authorization;
-
+    
         if(bcrytpedToken){
-            // const token=bcrytpedToken.replace(/^[Bb]earer /, "").trim();
-            const verification= jwt.verify(bcrytpedToken,JWT_KEY)
-            res.locals.user=jwt.verify(bcrytpedToken,JWT_KEY)
-            // return res.send(verification)
+            const token=bcrytpedToken.replace(/^[Bb]earer /, "").trim();
+            const verification= jwt.verify(token,JWT_KEY)
+            res.locals.user=verification
+          
 
         }
         return next();

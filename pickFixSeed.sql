@@ -229,5 +229,25 @@ VALUES (
         'contractors',
         100,
         200
-        )
+        );
         
+INSERT INTO user_events(
+        user_id,
+        user_type,
+        start_time, 
+        end_time,
+        available)
+VALUES (
+        1,
+        'customers',
+        '2008-11-11 11:12:01',
+        '2018-11-11 11:12:01',
+        '0'
+        ),
+        (
+        1,
+        'contractors',
+        '2008-11-11 11:12:01',
+        '2019-11-11 11:12:01',
+        '1'
+        );

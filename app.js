@@ -8,16 +8,21 @@ const locationRoutes=require("./routes/userLocations")
 const eventRoutes=require("./routes/userEvents")
 const { authenticateJWT } = require("./middleware/authentication");
 
+const cors = require("cors");
+app.use(cors());
+
+
+app.use(express.json());
 
 
 // app.use(express.json());
-app.use(authenticateJWT);
+// app.use(authenticateJWT);
 
 //middleware methods to route into appropriate route
 app.use("/users",userRoutes)
 app.use("/projects",projectRoutes)
 app.use("/location",locationRoutes)
-app.use("/event",eventRoutes)
+app.use("/events",eventRoutes)
 
 // handles 404 errors - when none of the routes above are matched
 app.use(function(req,res,next){

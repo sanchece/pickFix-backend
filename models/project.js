@@ -62,11 +62,18 @@ class Project{
     }
 
     //get all projects for user in SQL database
-    static async getForUser({userID,userType}){        
+    static async getForUser({userID,userType}){  
+        let projectUserType="";
+        if(userType==="customers"){
+             projectUserType="customer_id"
+        }      
+        else if(userType==="contractors"){
+            projectUserType="customer_id" 
+        }
         const sqlString=`
         SELECT title, description, status, budget, customer_id,contractor_id 
         FROM projects
-        WHERE ${userType} =$1`
+        WHERE ${projectUserType} =$1`
         
         const res=await db.query(sqlString
         ,[userID])

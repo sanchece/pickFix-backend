@@ -129,7 +129,7 @@ router.post("/add-review/:projectID", async function(req,res,next){
             contractor_id:1,
             sent_by:"customers"
         }
-        const review=await Review.add({newProjectData,projectID})
+        const review=await Review.add({newProjectData, projectID})
         return res.json({review})
     }
     catch(err){

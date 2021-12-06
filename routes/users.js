@@ -5,22 +5,14 @@ const User= require("../models/user")
 const createToken=require("../helpers/createTokens");
 const {ensureLoggedIn,ensureContractor}= require("../middleware/authentication");
 
-
 //register a new user
 //returns token 
 router.post("/register",async function(req,res,next){
     try{
-        const newCustomerData={
-            firstname:"testing",
-            lastname:"token",
-            email:"testing6@email.com",
-            password:"some_password",
-            userType:"contractors"  
-        };
+        const newCustomerData=req.body;
         const registeredCustomer= await User.register(newCustomerData);
         const token= await createToken(registeredCustomer); 
-        
-        return res.json(token)
+        return res.json({token})
     }
     catch(err){
         return next(err);
@@ -29,11 +21,7 @@ router.post("/register",async function(req,res,next){
 //authenticates a user for login
 router.post("/login",async function(req,res,next){
     try{
-        const newCustomerData={
-            email:"some@email.com",
-            password:"some_password",
-            userType:"customers"
-        };
+        const newCustomerData=req.body;
         const verifiedUser= await User.authenticate(newCustomerData);
         const token =createToken(verifiedUser)
         return res.json({token});           
@@ -43,18 +31,14 @@ router.post("/login",async function(req,res,next){
     }    
 })
 //update a single user
-router.patch("/:userID",ensureContractor, async function(req,res,next){
+router.patch("/:userId", async function(req,res,next){
     try{
-        // return res.send("hello")
-        const userID=req.params.userID;
-        const updatedUserJSONData={
-            firstname:"carlos",
-            lastname:"sanchsez",
-            email:"someOther@email12.com",
-            password:"some_password",          
-        };
-        const userType="contractors"
-        const updatedUser= await User.update({userID,updatedUserJSONData,userType});
+      
+        const userType=res.locals.user.userType
+
+        const userId=req.params.userId;
+        const updatedUserJSONData=req.body
+        const updatedUser= await User.update({userId,updatedUserJSONData,userType});
         return res.json(updatedUser);
     }
     catch(err){
@@ -76,13 +60,13 @@ router.delete("/:userID",async function(req,res,next){
 })
 
 //get a single user
-router.get("/:userID", async function(req,res,next){
-    try{
-        //code to get 1 specific customer 
-        const userType="customers"
-        const userID=req.params.userID;
-        const user= await User.get({userID,userType})
-        res.json(user);
+router.get("/:userId/:userType", async function(req,res,next){
+    try{       
+        const userId=req.params.userId;
+        const userType=req.params.userType;
+
+        const user= await User.get({userId,userType})
+        return res.json(user);
     }
     catch(err){
         return next(err);
@@ -90,9 +74,9 @@ router.get("/:userID", async function(req,res,next){
 })
 
 //get all users
-router.get("/",async function(req,res,next){
+router.get("/:userType",async function(req,res,next){
     try{
-        const userType="contractors";
+        const userType=req.params.userType;
         const users= await User.getAll(userType);
         return res.json(users)
     }
