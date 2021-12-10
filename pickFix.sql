@@ -4,6 +4,7 @@ CREATE DATABASE pickfix;
 
 CREATE TABLE contractors(
     id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL, 
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
     email TEXT NOT NULL,
@@ -22,9 +23,12 @@ CREATE TABLE projects(
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     status TEXT NOT NULL,
+    --REQUESTED, ACCEPTED, ACTIVE, COMPLETED, DECLINED 
     budget INT,
     customer_id INT NOT NULL REFERENCES customers ON DELETE NO ACTION,
-    contractor_id INT NOT NULL REFERENCES contractors ON DELETE NO ACTION
+    contractor_id INT NOT NULL REFERENCES contractors ON DELETE NO ACTION,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP
 );
 
 CREATE TABLE project_chats(

@@ -48,11 +48,10 @@ class User {
     );
     const user = res.rows[0];
 
-    // const isValid = await bcrypt.compare(password, user.password);
-    // if (!isValid) {
-    //   throw new UnauthorizedError(`Password incorrect for ${user.email}`);
-    // }
-
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      throw new UnauthorizedError(`Password incorrect for ${user.email}`);
+    }
 
     delete user.password;
     const tokenLoad = { ...user, userType };
@@ -121,11 +120,31 @@ class User {
     return user;
   }
 
-  static async getAll(userType) {
-    const res = await db.query(`SELECT id,firstname,lastname,email
-    FROM ${userType}`);
+  static async getAll(userType, location) {
+    const minLat=location.lat-0.36;
+    const maxLat=location.lat+0.36;
+    const minLng=location.lng-0.36;
+    const maxLng=location.lng+0.36;
+
+    // return {
+    //   location:location,
+    //   lat:{minLat,maxLat},
+    //   lng:{minLng, maxLng}
+    // }
+    const res = await db.query(`
+    SELECT name, U.id,firstname,lastname,email, lat,lng, L.user_type
+    FROM ${userType} U
+    INNER JOIN user_locations L
+    on  L.user_type=$1 AND L.user_id=U.id
+    WHERE L.lat<$2
+    AND L.lat>$3
+    AND L.Lng<$4
+    AND L.lng>$5
+  
+     `,[userType , maxLat,minLat, maxLng,minLng]) ;
     const users = res.rows;
-    return users;
+    
+      return users;
   }
 }
 

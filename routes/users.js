@@ -31,20 +31,20 @@ router.post("/login",async function(req,res,next){
     }    
 })
 //update a single user
-router.patch("/:userId", async function(req,res,next){
-    try{
+// router.patch("/:userId", async function(req,res,next){
+//     try{
       
-        const userType=res.locals.user.userType
+//         const userType=res.locals.user.userType
 
-        const userId=req.params.userId;
-        const updatedUserJSONData=req.body
-        const updatedUser= await User.update({userId,updatedUserJSONData,userType});
-        return res.json(updatedUser);
-    }
-    catch(err){
-        next(err)
-    }
-})
+//         const userId=req.params.userId;
+//         const updatedUserJSONData=req.body
+//         const updatedUser= await User.update({userId,updatedUserJSONData,userType});
+//         return res.json(updatedUser);
+//     }
+//     catch(err){
+//         next(err)
+//     }
+// })
 
 //delete a user
 router.delete("/:userID",async function(req,res,next){
@@ -64,7 +64,6 @@ router.get("/:userId/:userType", async function(req,res,next){
     try{       
         const userId=req.params.userId;
         const userType=req.params.userType;
-
         const user= await User.get({userId,userType})
         return res.json(user);
     }
@@ -74,10 +73,12 @@ router.get("/:userId/:userType", async function(req,res,next){
 })
 
 //get all users
-router.get("/:userType",async function(req,res,next){
+router.post("/:userType",async function(req,res,next){
     try{
+        
         const userType=req.params.userType;
-        const users= await User.getAll(userType);
+        const location= req.body;
+        const users= await User.getAll(userType,location);
         return res.json(users)
     }
     catch(err){

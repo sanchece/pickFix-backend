@@ -13,7 +13,6 @@ router.post("/:userID", async function(req,res,next){
         }
         const event= await Event.add({userID,newEventData});
         return res.json({event})
-
     }
     catch(err){
         return next(err);

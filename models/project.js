@@ -5,7 +5,7 @@ const getSetQueryString =require("../helpers/jsonToSQL")
 class Project{
 
     //adds project into database, checks for duplicates before adding project    
-    static async add({title,description,status,budget,customer_id,contractor_id}){
+    static async add({title,description,status,budget,customer_id,contractor_id, start_time, end_time}){
         const checkForDuplicate= await db.query(
             `SELECT title FROM projects WHERE title=$1`,
             [title]
@@ -15,10 +15,10 @@ class Project{
         }
         const res=await db.query(`
         INSERT INTO projects 
-        (title,description,status,budget,customer_id,contractor_id)
-        VALUES($1,$2,$3,$4,$5,$6)
-        RETURNING title,description,status,budget,customer_id,contractor_id`,
-        [title,description,status,budget,customer_id,contractor_id])
+        (title,description,status,budget,customer_id,contractor_id,start_time,end_time)
+        VALUES($1,$2,$3,$4,$5,$6, $7,$8)
+        RETURNING title,description,status,budget,customer_id,contractor_id, start_time,end_time`,
+        [title,description,status,budget,customer_id,contractor_id, start_time,end_time])
 
         const addedProject=res.rows[0];
         return addedProject;
@@ -71,7 +71,7 @@ class Project{
             projectUserType="customer_id" 
         }
         const sqlString=`
-        SELECT title, description, status, budget, customer_id,contractor_id 
+        SELECT *
         FROM projects
         WHERE ${projectUserType} =$1`
         

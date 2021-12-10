@@ -9,14 +9,7 @@ const Review= require("../models/projectReview")
 // add new project
 router.post("/add", async function(req,res,next){
     try{
-        const newProjectData={
-            title:"4th Project",
-            description:"creating first projet",
-            status:"Not Started",
-            budget: 500,
-            customer_id:3,
-            contractor_id:1
-        }
+        const newProjectData=req.body
         const project= await Project.add(newProjectData);
         return res.json(project);
     }
@@ -69,7 +62,7 @@ router.get("/:projectID",async function(req,res,next){
 })
 
 // get projects for a user (customer/contractor)
-router.get("/:userType/:userID", async function(req,res,next){
+router.get("/user/:userType/:userID", async function(req,res,next){
     try{
         const userType=req.params.userType;
         const userID=req.params.userID;
@@ -81,33 +74,29 @@ router.get("/:userType/:userID", async function(req,res,next){
         return next(err);
     }
 })
-// ######################################################################################################################
+// // ######################################################################################################################
 
 //add a chat to a project
-router.post("/add-chat/:projectID", async function(req,res,next){
+router.post("/chat/:projectId", async function(req,res,next){
     try{
-        const projectID=req.params.projectID;
-        const newChatData={
-            chat:"from route, miso soup",
-            created_on:"2008-11-11 11:12:01",
-            customer_id:1,
-            contractor_id:4,
-            sent_by:"customers"   
-        }
-        const chat=await Chat.add({newChatData,projectID})
+        const projectId=req.params.projectId;
+        const newChatData=req.body
+        const chat=await Chat.add({newChatData,projectId})
         return res.json({chat})
     }
     catch(err){
         return next(err);
     }
 })
+
+
 
 //get last n chats from specified project
-router.post("/get-chats/:projectID", async function(req,res,next){
+router.get("/chat/:id", async function(req,res,next){
     try{
-        const projectID=req.params.projectID;
-        const nChats=3;
-        const chat=await Chat.get({projectID, nChats})
+        const projectId=req.params.id;
+        const nChats=20;
+        const chat=await Chat.get({projectId, nChats})
         return res.json({chat})
     }
     catch(err){
@@ -115,8 +104,8 @@ router.post("/get-chats/:projectID", async function(req,res,next){
     }
 })
 
+
 // ######################################################################################################################
- 
 // add a review to a project
 router.post("/add-review/:projectID", async function(req,res,next){
     try{
@@ -150,10 +139,5 @@ router.post("/get-reviews/:projectID", async function(req,res,next){
         return next(err);
     }
 })
-
-
-
-
-
 
 module.exports=router;

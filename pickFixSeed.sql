@@ -4,76 +4,111 @@ INSERT INTO customers(firstname, lastname, email, password)
 VALUES ('dolin',
         'diaz',
         'diaz@email.com',
-        'some_password'
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
         ('oscar',
         'diaz',
         'oscar@email.com',
-        'some_password'
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
         ('cecy',
         'diaz',
         'cecy@email.com',
-        'some_password'
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
         ('carlos',
         'sanchez',
         'carlos@email.com',
-        'some_password'
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
         ('tammi',
         'c',
         'tammi@email.com',
-        'some_password'
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         );
 
-INSERT INTO contractors(firstname, lastname, email, password)
-VALUES ('mr1',
-        'contractor',
-        'mr1@email.com',
-        'some_password'
+INSERT INTO contractors(name, firstname, lastname, email,password)
+VALUES ('the plumber',
+        'mario',
+        'bros',
+        'mario@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('mr2',
-        'contractor',
-        'mr2@email.com',
-        'some_password'
+        ('the cook',
+        'spongebob',
+        'squarepants',
+        'spongebob@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('mr3',
+        ('the ghostbuster',
         'contractor',
-        'mr3@email.com',
-        'some_password'
+        'lastname',
+        'contractor@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('mr4',
-        'contractor',
-        'mr4@email.com',
-        'some_password'
-        );
-INSERT INTO projects(title, description, status, budget, customer_id, contractor_id)
-VALUES ('project 1',
+        (
+        'the bender',
+        'bender',
+        'the robot',
+        'bender@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
+        ),
+        ('The Delivery boy',
+        'Philip J',
+        'Fry',
+        'Fry@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
+        ),
+        ('the scientist',
+        'rick',
+        'sanchez',
+        'rick@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
+        )
+        ;
+
+INSERT INTO projects(
+        title, 
+        description,
+         status, 
+         budget, 
+         customer_id, 
+         contractor_id,
+         start_time,
+         end_time)
+VALUES ('trim bushes',
         'some project',
         'not started',
         500,
         1,
-        4
+        4,
+         '2021-12-11 11:12:01',
+        '2021-12-14 11:12:01'
         ),
         ('project 2',
         'some project',
         'not started',
         500,
         1,
-        4),
+        4,
+        '2021-12-11 11:12:01',
+        '2021-12-14 11:12:01'),
         ('project 3',
         'some project',
         'not started',
         500,
         1,
-        4),
+        4,
+        '2021-12-11 11:12:01',
+        '2021-12-14 11:12:01'),
         ('project 3',
         'some project',
         'not started',
         500,
         1,
-        4);
+        4,
+         '2021-12-11 11:12:01',
+        '2021-12-14 11:12:01');
 
 
 INSERT INTO project_chats(chat, created_on, project_id, customer_id, contractor_id,sent_by)
@@ -178,57 +213,51 @@ INSERT INTO user_locations(
 VALUES (
         1,
         'customers',
-        100,
-        200
+        42.342,
+        -83.057
         ),
         (
         2,
         'customers',
-        100,
-        200
+        42.332,
+        -83.057
         ),
         (
-        3,
-        'customers',
-        100,
-        200
-        ),
-        (
-        4,
-        'customers',
-        100,
-        200
-        ),
-        (
-        5,
-        'customers',
-        100,
-        200
+        1,
+        'contractors',
+        42.372,
+        -83.017
         ),
 
          (
         2,
         'contractors',
-        100,
-        200
+        42.322,
+        -83.017
         ),
         (
         3,
         'contractors',
-        100,
-        200
+        42.352,
+        -83.011
         ),
         (
         4,
         'contractors',
-        100,
-        200
+        42.382,
+        -83.017
         ),
         (
         5,
         'contractors',
-        100,
-        200
+        42.342,
+        -83.087
+        ),
+              (
+        6,
+        'contractors',
+        43.342,
+        -84.037
         );
         
 INSERT INTO user_events(
