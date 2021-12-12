@@ -5,7 +5,6 @@ const Project= require("../models/project")
 const Chat= require("../models/projectChat")
 const Review= require("../models/projectReview")
 
-
 // add new project
 router.post("/add", async function(req,res,next){
     try{
@@ -19,16 +18,9 @@ router.post("/add", async function(req,res,next){
 })
 
 //update project
-router.patch("/update/:projectID", async function(req,res,next){
+router.patch("/:projectID", async function(req,res,next){
     try{
-        const newProjectData={
-            title:"first Project updated",
-            description:"creating first projet",
-            status:" Started",
-            budget: 500,
-            customer_id:8,
-            contractor_id:1
-        }
+        const newProjectData=req.body
         const projectID=req.params.projectID
         const project= await Project.update({newProjectData, projectID});
         return res.json(project);
@@ -74,8 +66,7 @@ router.get("/user/:userType/:userID", async function(req,res,next){
         return next(err);
     }
 })
-// // ######################################################################################################################
-
+// // ##############################################################
 //add a chat to a project
 router.post("/chat/:projectId", async function(req,res,next){
     try{
@@ -131,7 +122,6 @@ router.post("/get-reviews/:projectID", async function(req,res,next){
     try{
         const projectID=req.params.projectID;
         const nChats=2;
-
         const reviews=await Review.get({projectID,nChats})
         return res.json({reviews})
     }

@@ -2,9 +2,10 @@ const express = require("express");
 const db = require("../db");
 const router = express.Router();
 const Location= require("../models/location")
+const {ensureLoggedIn,ensureCorrectUser, ensureContractor}= require("../middleware/authentication");
 
 
-router.post("/add/:userID", async function(req,res,next){
+router.post("/add/:userID",ensureLoggedIn, async function(req,res,next){
     try{
         const userID=req.params.userID;
         const newLocationData={

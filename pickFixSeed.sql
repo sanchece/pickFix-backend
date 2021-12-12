@@ -1,53 +1,53 @@
 \connect pickfix
 
 INSERT INTO customers(firstname, lastname, email, password)
-VALUES ('dolin',
-        'diaz',
-        'diaz@email.com',
+VALUES ('Grizzly',
+        'Bear',
+        'grizzly@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('oscar',
-        'diaz',
-        'oscar@email.com',
+        ('Yogi',
+        'Bear',
+        'Yogi@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('cecy',
-        'diaz',
-        'cecy@email.com',
+        ('Black',
+        'Bear',
+        'Black@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('carlos',
-        'sanchez',
-        'carlos@email.com',
+        ('Smokey',
+        'Bear',
+        'Smokey@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('tammi',
-        'c',
-        'tammi@email.com',
+        ('Share',
+        'Bear',
+        'Share@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         );
 
 INSERT INTO contractors(name, firstname, lastname, email,password)
-VALUES ('the plumber',
-        'mario',
-        'bros',
+VALUES ('Mario The Plumber',
+        'Mario',
+        'Bros',
         'mario@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('the cook',
-        'spongebob',
-        'squarepants',
+        ('Spongebob the Cook',
+        'Spongebob',
+        'Squarepants',
         'spongebob@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('the ghostbuster',
-        'contractor',
-        'lastname',
+        ('Peter The Ghostbuster',
+        'Peter',
+        'Venkman',
         'contractor@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
         (
-        'the bender',
+        'Metal bender',
         'bender',
         'the robot',
         'bender@email.com',
@@ -59,10 +59,16 @@ VALUES ('the plumber',
         'Fry@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         ),
-        ('the scientist',
+        ('Rick The Scientist',
         'rick',
         'sanchez',
         'rick@email.com',
+        '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
+        ),
+        ('El Professor ',
+        'Alvoro',
+        'Morte',
+        'Alvoro@email.com',
         '$2b$12$RINHQrCX1.jvOchk6C3Djurlhst0v5p1Q.pdSXwkMCwDDUWP/qPS6'
         )
         ;
@@ -76,77 +82,102 @@ INSERT INTO projects(
          contractor_id,
          start_time,
          end_time)
-VALUES ('trim bushes',
-        'some project',
-        'not started',
-        500,
+VALUES ('Fix Pipe Leak',
+        'Sink Pipes are leaking',
+        'ACCEPTED',
+        100,
         1,
-        4,
-         '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01'
+        1,
+        '2021-12-6 9:00:00',
+        '2021-12-6 12:00:00'
         ),
-        ('project 2',
-        'some project',
-        'not started',
+        ('Cook Crabby Patties',
+        'I need crabby patties cooked for the weekend',
+        'ACCEPTED',
         500,
         1,
-        4,
-        '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01'),
-        ('project 3',
-        'some project',
-        'not started',
-        500,
+        2,
+        '2021-12-10 9:00:00',
+        '2021-12-12 19:00:00'),
+        ('Hunted Basement',
+        'Take down ghosts in the basement',
+        'ACCEPTED',
+        800,
+        1,
+        3,
+        '2021-12-11 10:00:00',
+        '2021-12-14 22:00:00'),
+        ('Bend Fender',
+        'Fender needs to be bended back to normal',
+        'REQUESTED',
+        200,
         1,
         4,
-        '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01'),
-        ('project 3',
-        'some project',
-        'not started',
-        500,
+         '2021-12-20 10:00:00',
+        '2021-12-20 17:00:00'),
+        ('Deliver Pizza',
+        'Need a dozen pizzas for the weekend',
+        'REQUESTED',
+        200,
         1,
-        4,
-         '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01');
+        5,
+         '2021-12-24 12:00:00',
+        '2021-12-26 17:00:00'),
+        ('Royal Mint of Spain Heist',
+        'Execute the master plan',
+        'REQUESTED',
+        50000,
+        1,
+        7,
+         '2021-12-26 12:00:00',
+        '2021-12-30 17:00:00')
+        ;
 
 
 INSERT INTO project_chats(chat, created_on, project_id, customer_id, contractor_id,sent_by)
-VALUES ('one',
-        '2008-11-11 11:12:01',
+VALUES ('Hello',
+        '2021-12-6 9:00:00',
         1,
         1,
-        4,
+        1,
         'customers'
         ),
-        ('two',
-        '2008-11-11 11:12:01',
+        ('Hey!',
+        '2021-12-7 9:00:00',
         1,
         1,
-        4,
+        1,
          'contractors'
         ),
-        ('three',
-        '2008-11-11 11:12:01',
+        ('Hows it going',
+        '2021-12-7 10:00:00',
+        2,
         1,
-        1,
-        4,
+        2,
          'customers'
         ),
-        ('four',
-        '"2008-11-11 11:12:01"',
+        ('Great how are you',
+        '2021-12-7 11:00:00',
+        2,
         1,
-        1,
-        4,
+        2,
          'contractors'
         ),
-        ('five',
-        '2008-11-11 11:12:01',
+        ('hey!',
+        '2021-12-8 9:00:00',
+        3,
         1,
-        1,
-        4,
+        3,
          'customers'
-        );
+        ),
+                ('What`s up',
+        '2021-12-9 9:00:00',
+        3,
+        1,
+        3,
+         'contractors'
+        )
+        ;
 
 
 INSERT INTO project_reviews(
@@ -258,44 +289,11 @@ VALUES (
         'contractors',
         43.342,
         -84.037
+        ),
+        (
+        7,
+        'contractors',
+        42.302,
+        -83.037
         );
         
-INSERT INTO user_events(
-        user_id,
-        user_type,
-        start_time, 
-        end_time,
-        available,
-        project)
-VALUES (
-        1,
-        'customers',
-        '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01',
-        '0',
-        1
-        ),
-        (
-        1,
-        'customers',
-        '2021-12-17 11:12:01',
-        '2021-12-18 11:12:01',
-        '0',
-        1
-        ),
-       (
-        1,
-        'contractors',
-        '2021-12-11 11:12:01',
-        '2021-12-14 11:12:01',
-        '0',
-        1
-        ),
-        (
-        1,
-        'contractors',
-        '2021-12-17 11:12:01',
-        '2021-12-18 11:12:01',
-        '0',
-        1
-        );

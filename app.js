@@ -13,7 +13,7 @@ app.use(cors());
 
 app.use(express.json());
 
-// app.use(authenticateJWT);
+app.use(authenticateJWT);
 
 //middleware methods to route into appropriate route
 app.use("/users",userRoutes)

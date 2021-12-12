@@ -4,7 +4,7 @@ CREATE DATABASE pickfix;
 
 CREATE TABLE contractors(
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL, 
+    name TEXT, 
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
     email TEXT NOT NULL,

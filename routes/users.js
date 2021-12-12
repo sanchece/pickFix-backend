@@ -30,21 +30,19 @@ router.post("/login",async function(req,res,next){
         return next(err);
     }    
 })
-//update a single user
-// router.patch("/:userId", async function(req,res,next){
-//     try{
-      
-//         const userType=res.locals.user.userType
-
-//         const userId=req.params.userId;
-//         const updatedUserJSONData=req.body
-//         const updatedUser= await User.update({userId,updatedUserJSONData,userType});
-//         return res.json(updatedUser);
-//     }
-//     catch(err){
-//         next(err)
-//     }
-// })
+// update a single user
+router.patch("/:userId", async function(req,res,next){
+    try{
+        const userType=res.locals.user.userType
+        const userId=req.params.userId;
+        const updatedUserJSONData=req.body
+        const updatedUser= await User.update({userId,updatedUserJSONData,userType});
+        return res.json(updatedUser);
+    }
+    catch(err){
+        next(err)
+    }
+})
 
 //delete a user
 router.delete("/:userID",async function(req,res,next){
@@ -60,7 +58,7 @@ router.delete("/:userID",async function(req,res,next){
 })
 
 //get a single user
-router.get("/:userId/:userType", async function(req,res,next){
+router.get("/:userId/:userType", ensureLoggedIn, async function(req,res,next){
     try{       
         const userId=req.params.userId;
         const userType=req.params.userType;
@@ -75,7 +73,6 @@ router.get("/:userId/:userType", async function(req,res,next){
 //get all users
 router.post("/:userType",async function(req,res,next){
     try{
-        
         const userType=req.params.userType;
         const location= req.body;
         const users= await User.getAll(userType,location);
