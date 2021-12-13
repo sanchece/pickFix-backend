@@ -68,18 +68,24 @@ class Project{
              projectUserType="customer_id"
         }      
         else if(userType==="contractors"){
-            projectUserType="customer_id" 
+            projectUserType="contractor_id" 
         }
         const sqlString=`
-        SELECT *
-        FROM projects
+        SELECT title, status, budget, C.name, start_time,
+        end_time, P.id ,U.firstname
+        FROM projects P
+        INNER JOIN contractors C
+        ON P.contractor_id=C.id
+    
+        INNER JOIN customers U
+        ON P.customer_id=U.id
+    
         WHERE ${projectUserType} =$1`
         
         const res=await db.query(sqlString
         ,[userID])
         const projects= res.rows;
         return projects;
-
     }
 }
 module.exports=Project;

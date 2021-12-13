@@ -8,11 +8,9 @@ const {ensureLoggedIn,ensureCorrectUser, ensureContractor}= require("../middlewa
 router.post("/add/:userID",ensureLoggedIn, async function(req,res,next){
     try{
         const userID=req.params.userID;
-        const newLocationData={
-            userType:"customers",
-            lat:800,
-            lng: 300
-        }
+        const newLocationData=req.body
+        const deleted= await Location.delete({userID,newLocationData});
+
         const location= await Location.add({userID,newLocationData});
         return res.json({location})
     }

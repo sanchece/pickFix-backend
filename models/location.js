@@ -38,7 +38,8 @@ class Location{
         const updatedLocation=res.rows[0];
         return updatedLocation;
     }
-    static async delete({userID,userType}){
+    static async delete({userID,newLocationData}){
+const {userType}=newLocationData;
         const res=await db.query(`
         DELETE FROM user_locations 
         WHERE user_id=$1 
