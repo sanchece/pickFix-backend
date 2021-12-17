@@ -7,7 +7,7 @@ let DB_URI;
 if (process.env.NODE_ENV === "test") {
   DB_URI = "postgresql:///pickfixtest";
 } else {
-  DB_URI = "postgresql:///pickfix";
+  DB_URI =process.env.DATABASE_URL|| "postgresql:///pickfix";
 }
 
 let db = new Client({
@@ -15,4 +15,4 @@ let db = new Client({
 });
 
 db.connect();
-module.exports = db;
+module.exports = db;iii
