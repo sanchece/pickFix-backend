@@ -1,6 +1,3 @@
-DROP DATABASE pickfix;
-CREATE DATABASE pickfix;
-\connect pickfix
 
 CREATE TABLE contractors(
     id SERIAL PRIMARY KEY,

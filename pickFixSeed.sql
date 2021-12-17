@@ -1,5 +1,3 @@
-\connect pickfix
-
 INSERT INTO customers(firstname, lastname, email, password)
 VALUES ('Grizzly',
         'Bear',
