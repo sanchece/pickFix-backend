@@ -5,6 +5,17 @@ const getSetQueryString = require("../helpers/jsonToSQL");
 class Location{
     static async add({userID,newLocationData}){
         const {userType,lat,lng}= newLocationData;
+        const checkForDuplicate = await db.query(
+            `SELECT *
+            FROM user_locations
+             Where user_id=$1`,
+            [userID]
+          );
+          // throw BadRequestError if there is an account with this email in database
+          if (checkForDuplicate.rows[0]) {
+              this.update({userID,newLocationData})
+              return checkForDuplicate.rows[0]
+          }
         const res=await db.query(`
             INSERT INTO user_locations
             (user_id,user_type,lat,lng)
@@ -25,8 +36,11 @@ class Location{
         const location=res.rows;
         return location;
     }
-    static async update({userID,userType, newLocationData}){
-        const {setQueryString,values}= getSetQueryString(newLocationData);
+    static async update({userID, newLocationData}){
+        console.log("getting ready to update")
+
+        const {userType,lat,lng}= newLocationData;
+        const {setQueryString,values}= getSetQueryString({lat,lng});
         const varID= `${values.length+1}`;
         const sqlString=`
         UPDATE user_locations 
@@ -34,7 +48,10 @@ class Location{
         WHERE user_id=$${varID} 
         AND user_type=$${parseInt(varID)+1} 
         RETURNING user_id,user_type,lat,lng;`
+        console.log("sql string:", sqlString)
+        console.log("values:", [...values, userID,userType])
         const res=await db.query(sqlString, [...values,userID, userType]);
+        console.log("updated: ",res.rows[0]);
         const updatedLocation=res.rows[0];
         return updatedLocation;
     }
