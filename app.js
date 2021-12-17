@@ -13,13 +13,14 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(authenticateJWT);
+ app.use(authenticateJWT);
 
 //middleware methods to route into appropriate route
 app.use("/users",userRoutes)
 app.use("/projects",projectRoutes)
 app.use("/location",locationRoutes)
 app.use("/events",eventRoutes)
+
 
 // handles 404 errors - when none of the routes above are matched
 app.use(function(req,res,next){
@@ -34,6 +35,7 @@ app.use(function (err,req, res, next) {
   const message = err.message;
   return res.status(status).json({
     error: { message, status },
+    pickfix: "hello"
   });
 });
 

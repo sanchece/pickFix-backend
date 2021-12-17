@@ -5,6 +5,9 @@ const { JWT_KEY } = require("../configurations");
 function authenticateJWT(req, res, next) {
   try {
     const bcrytpedToken = req.headers.authorization;
+    if(bcrytpedToken==undefined){
+      return next();
+    }
     const token = bcrytpedToken.replace(/^[Bb]earer /, "").trim();
 
     if (token != "undefined") {

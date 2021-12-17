@@ -58,6 +58,7 @@ router.delete("/:userID",async function(req,res,next){
 })
 
 //get a single user
+
 router.get("/:userId/:userType", ensureLoggedIn, async function(req,res,next){
     try{       
         const userId=req.params.userId;
@@ -68,6 +69,10 @@ router.get("/:userId/:userType", ensureLoggedIn, async function(req,res,next){
     catch(err){
         return next(err);
     }
+})
+
+router.get("/testing", function (req,res,next){
+    return res.send("This is pickfix backend")
 })
 
 //get all users
