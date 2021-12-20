@@ -1,9 +1,7 @@
-DROP DATABASE pickfixtest;
-CREATE DATABASE pickfixtest;
-\connect pickfixtest
 
 CREATE TABLE contractors(
     id SERIAL PRIMARY KEY,
+    name TEXT, 
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
     email TEXT NOT NULL,
@@ -22,37 +20,51 @@ CREATE TABLE projects(
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     status TEXT NOT NULL,
+    --REQUESTED, ACCEPTED, ACTIVE, COMPLETED, DECLINED 
     budget INT,
     customer_id INT NOT NULL REFERENCES customers ON DELETE NO ACTION,
-    contractor_id INT NOT NULL REFERENCES contractors ON DELETE NO ACTION
+    contractor_id INT NOT NULL REFERENCES contractors ON DELETE NO ACTION,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP
 );
+
+CREATE TABLE project_chats(
+    id SERIAL PRIMARY KEY,
+    project_id INT NOT NULL REFERENCES projects ON DELETE CASCADE,
+    chat TEXT NOT NULL,
+    created_on TIMESTAMP, 
+    customer_id INT REFERENCES customers ON DELETE CASCADE,
+    contractor_id INT REFERENCES contractors ON DELETE CASCADE,
+    sent_by TEXT NOT NULL
+    );
 
 CREATE TABLE project_reviews(
     id SERIAL PRIMARY KEY,
     project_id INT NOT NULL REFERENCES projects ON DELETE CASCADE,
-    rating INT NOT NULL,
+    rating DECIMAL(6,1) NOT NULL CHECK (rating BETWEEN 0 AND 5.0),
     comment TEXT NOT NULL,
-    source_id INT NOT NULL,
-    destination_id INT NOT NULL
+    created_on TIMESTAMP, 
+    customer_id INT REFERENCES customers ON DELETE CASCADE,
+    contractor_id INT REFERENCES contractors ON DELETE CASCADE,
+    sent_by TEXT NOT NULL
 );
 
-
-CREATE TABLE project_chat(
+CREATE TABLE user_locations(
     id SERIAL PRIMARY KEY,
-    chat TEXT NOT NULL,
-    created_on TIMESTAMP, 
-    customer_id INT NOT NULL REFERENCES customers ON DELETE CASCADE,
-    contractor_id INT NOT NULL REFERENCES contractors ON DELETE CASCADE
-    );
-CREATE TABLE client_location(
-    id SERIAL PRIMARY KEY,
-    client_id INT NOT NULL,
+    user_id INT NOT NULL,
+    user_type TEXT NOT NULL,
     lat NUMERIC NOT NULL,
     lng NUMERIC NOT NULL
 );
-CREATE TABLE calendar(
+CREATE TABLE user_events(
     id SERIAL PRIMARY KEY,
-    client_id INT NOT NULL,
+    user_id INT NOT NULL,
+    user_type TEXT NOT NULL,
     start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP
+    end_time TIMESTAMP,
+    available BOOLEAN,
+    project INT NOT NULL REFERENCES projects ON DELETE CASCADE
 );
+
+
+

@@ -146,7 +146,7 @@ else{
       [userId]
     );
     const user = res.rows[0];
-    if (!user) throw new NotFoundError(`Customer not Found: ${userId}`);
+    if (!user) throw new NotFoundError(`Customer not Found: id:${userId}, userType:${userType} `);
     return user;
   }
 
@@ -160,24 +160,38 @@ else{
     //   location:location,
     //   lat:{minLat,maxLat},
     //   lng:{minLng, maxLng}
-    // }
-    const res = await db.query(
-      `
-    SELECT name, U.id,firstname,lastname,email, lat,lng, L.user_type
-    FROM ${userType} U
-    INNER JOIN user_locations L
-    on  L.user_type=$1 AND L.user_id=U.id
-    WHERE L.lat<$2
-    AND L.lat>$3
-    AND L.Lng<$4
-    AND L.lng>$5
-  
-     `,
-      [userType, maxLat, minLat, maxLng, minLng]
-    );
-    const users = res.rows;
 
-    return users;
+    // }
+    if(userType==="contractors"& location){
+      const res = await db.query(
+        `
+      SELECT name, U.id,firstname,lastname,email, lat,lng, L.user_type
+      FROM ${userType} U
+      INNER JOIN user_locations L
+      on  L.user_type=$1 AND L.user_id=U.id
+      WHERE L.lat<$2
+      AND L.lat>$3
+      AND L.Lng<$4
+      AND L.lng>$5
+    
+       `,
+        [userType, maxLat, minLat, maxLng, minLng]
+      );
+      const users = res.rows;
+      return users;
+    }
+    else{
+      const res = await db.query(
+        `
+      SELECT id, firstname,lastname,email
+      FROM ${userType} 
+    
+       `
+      );
+      const users = res.rows;
+      return users;
+    }
+  
   }
 }
 

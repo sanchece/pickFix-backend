@@ -7,6 +7,7 @@ const projectRoutes=require("./routes/projects")
 const locationRoutes=require("./routes/userLocations")
 const eventRoutes=require("./routes/userEvents")
 const { authenticateJWT } = require("./middleware/authentication");
+const {NotFoundError}= require("./CustomErrors")
 
 const cors = require("cors");
 app.use(cors());
@@ -24,7 +25,7 @@ app.use("/events",eventRoutes)
 
 // handles 404 errors - when none of the routes above are matched
 app.use(function(req,res,next){
-  return res.send("404 no route was matched, this end point does not exist")
+  return next(new NotFoundError());
 })
 
 // Custom error handler when next(err) is called in the above routes
